@@ -1,0 +1,115 @@
+#include<bits/stdc++.h>
+using namespace std;
+struct Nodes
+{
+     int data;
+    Nodes* next;
+};
+int top=-1;
+void IsEmpty(struct Nodes **head)
+{
+    struct Nodes *temp =*head;
+    if(temp==NULL)
+    {
+        cout<<"Empty Stacks"<<endl;
+    }
+    else
+    {
+        cout<<"Not Empty Stacks"<<endl;
+    }
+}
+int peek(struct Nodes **head)
+{
+if(head==NULL)
+{
+    cout<<"Empty Stacks"<<endl;
+}
+else
+{
+  int temp=(*head)->data;
+  return temp;  
+}
+return 0;
+}
+void pop(struct Nodes **head)
+{
+struct Nodes *temp =*head;
+*head=temp->next;
+delete temp;
+}
+void push(struct Nodes **head, int data)
+{
+struct Nodes *temp=new Nodes;
+temp->data = data;
+if(top==-1) 
+{
+ //cout<<"Pushed At 1"<<endl;
+temp->next = NULL;
+*head = temp;
+top++;
+return ;    
+}
+if(top>-1)
+{
+//cout<<"Pushed"<<endl;
+top++;
+temp->next=*head;
+*head = temp;
+}
+}
+void print(struct Nodes *head)
+{
+    Nodes *temp=head;
+    while(temp!=NULL)
+    {
+        cout<<temp->data<<"->"<<" ";
+        temp=temp->next;
+    }
+    if(temp==NULL)
+    {
+        cout<<"NULL"<<endl;
+    }
+}
+int main()
+{
+struct Nodes *head=NULL;
+string str;
+cin>>str;
+int len=str.length();
+for(auto i=len-1;i>=0;i--)
+{
+if(isdigit(str[i]))
+{
+    push(&head,str[i]-'0');
+}
+else
+{
+int k=peek(&head);
+pop(&head);
+int j=peek(&head);
+pop(&head);
+if(str[i]=='+')
+{
+    push(&head,k+j);
+}
+else if(str[i]=='-')
+{
+    push(&head,k-j);
+}
+else if(str[i]=='*')
+{
+    push(&head,k*j);
+}
+else if(str[i]=='/')
+{
+    push(&head,k*j);
+}
+else
+{
+    cout<<"Invalid"<<endl;
+}
+}
+}
+cout<<peek(&head)<<endl;
+return 0;
+}
